@@ -147,7 +147,8 @@ def main(unused_argv):
       functools.partial(train_step, model),
       axis_name="batch",
       in_axes=(0, 0, 0, None),
-      donate_argnums=(2,))
+      donate_argnums=(1,),
+      backend="ipu")
 
   def render_fn(variables, key_0, key_1, rays):
     return jax.lax.all_gather(
@@ -159,6 +160,7 @@ def main(unused_argv):
       in_axes=(None, None, None, 0),  # Only distribute the data input.
       donate_argnums=(3,),
       axis_name="batch",
+      backend="ipu"
   )
 
   # Compiling to the CPU because it's faster and more accurate.
@@ -266,4 +268,5 @@ def main(unused_argv):
 
 
 if __name__ == "__main__":
+  config.FLAGS.jax_platform_name = 'cpu'
   app.run(main)

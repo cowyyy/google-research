@@ -68,6 +68,7 @@ def main(unused_argv):
       in_axes=(None, None, None, 0),
       donate_argnums=3,
       axis_name="batch",
+      backend="ipu"
   )
 
   # Compiling to the CPU because it's faster and more accurate.
@@ -143,4 +144,6 @@ def main(unused_argv):
 
 
 if __name__ == "__main__":
+  from jax import config
+  config.FLAGS.jax_platform_name = 'cpu'
   app.run(main)
