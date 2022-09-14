@@ -66,7 +66,7 @@ def main(unused_argv):
   render_pfn = jax.pmap(
       render_fn,
       in_axes=(None, None, None, 0),
-      donate_argnums=3,
+      static_broadcasted_argnums=(0, 1, 2),
       axis_name="batch",
       backend="ipu"
   )
